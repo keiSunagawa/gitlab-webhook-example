@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "gitlab-dep"
+  labels:
+    {{- include "gitlab_webhook_example.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "gitlab_webhook_example.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "gitlab_webhook_example.selectorLabels" . | nindent 8 }}
+    spec:
+      # volumes:
+      # - name: hostvolume
+      #   hostPath:
+      #     path: /tmp/gitlab
+      #     type: DirectoryOrCreate
+      # hostname: gitlab
+      containers:
+        - name: "gitlab-cnt"
+          image: "gitlab/gitlab-ce:rc"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          # volumeMounts:
+          #   - mountPath: /etc/gitlab
+          #     subPath: config
+          #     name: hostvolume
+          #   - mountPath: /var/log/gitlab
+          #     subPath: logs
+          #     name: hostvolume
+          #   - mountPath: /var/opt/gitlab
+          #     subPath: data
+          #     name: hostvolume
+          # ports:
+            # - name: ssl
+            #   containerPort: 443
+            #   protocol: TCP
+            # - name: http
+            #   containerPort: 80
+            #   protocol: TCP
+            # - name: ssh
+            #   containerPort: 22
+            #   protocol: TCP

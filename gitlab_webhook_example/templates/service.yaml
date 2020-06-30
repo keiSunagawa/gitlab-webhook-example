@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "gilab-service"
+  labels:
+    {{- include "gitlab_webhook_example.labels" . | nindent 4 }}
+spec:
+  type: NodePort
+  ports:
+    - name: ssl
+      protocol: TCP
+      port: 50001 # for inner access
+      targetPort: 443
+      nodePort: 31101
+    - name: http
+      protocol: TCP
+      port: 50002 # for inner access
+      targetPort: 80
+      nodePort: 31102
+    - name: ssh
+      protocol: TCP
+      port: 50003 # for inner access
+      targetPort: 22
+      nodePort: 31103
+  selector:
+    {{- include "gitlab_webhook_example.selectorLabels" . | nindent 4 }}
