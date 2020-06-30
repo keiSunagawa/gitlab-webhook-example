@@ -19,6 +19,13 @@ defmodule RequestLoggingWeb.Router do
     get "/", PageController, :index
   end
 
+  scope "/api", RequestLoggingWeb do
+    pipe_through :api
+
+    resources "/log", LoggingController, only: [:create]
+  end
+
+
   # Other scopes may use custom stacks.
   # scope "/api", RequestLoggingWeb do
   #   pipe_through :api
