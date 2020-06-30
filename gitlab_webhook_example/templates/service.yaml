@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: "gilab-service"
   labels:
+    id: "gitlab-svc"
     {{- include "gitlab_webhook_example.labels" . | nindent 4 }}
 spec:
   type: NodePort
@@ -23,4 +24,22 @@ spec:
       targetPort: 22
       nodePort: 31103
   selector:
+    id: "gitlab-cnt"
+    {{- include "gitlab_webhook_example.selectorLabels" . | nindent 4 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "exs-service"
+  labels:
+    id: exs-svc
+    {{- include "gitlab_webhook_example.labels" . | nindent 4 }}
+spec:
+  ports:
+    - name: http
+      protocol: TCP
+      port: 4000 # for inner access
+      targetPort: 4000
+  selector:
+    id: exs-cnt
     {{- include "gitlab_webhook_example.selectorLabels" . | nindent 4 }}

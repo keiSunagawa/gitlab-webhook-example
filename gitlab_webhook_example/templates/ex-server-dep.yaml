@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "gitlab-dep"
+  name: "ex-server-dep"
   labels:
-    id: "gitlab-dep"
+    id: exs-dep
     {{- include "gitlab_webhook_example.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      id: "gitlab-cnt"
+      id: exs-cnt
       {{- include "gitlab_webhook_example.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        id: gitlab-cnt
+        id: exs-cnt
         {{- include "gitlab_webhook_example.selectorLabels" . | nindent 8 }}
     spec:
       containers:
-        - name: "gitlab-cnt"
-          image: "gitlab/gitlab-ce:rc"
+        - name: "reqlog-cnt"
+          image: "request_logging"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
