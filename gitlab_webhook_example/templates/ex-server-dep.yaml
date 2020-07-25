@@ -21,3 +21,17 @@ spec:
         - name: "reqlog-cnt"
           image: "request_logging"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: STALKER_PROJECT_PATH
+              value: "foo/root"
+            - name: STALKER_STALKER_BRANCH
+              value: "master"
+            - name: STALKER_VICTIM_BRANCH
+              value: "staging"
+            - name: EXTERNAL_GRAPHQL_API_ENDPOINT
+              value: "http://gilab-service/api/graphql"
+            - name: EXTERNAL_REST_API_ENDPOINT
+              value: "http://gilab-service/api/v4/projects"
+            - name: EXTERNAL_SLACK_NOTICE_ENDPOINT
+              value: "hM79LVge7BDx8xfyzNWb"
+
