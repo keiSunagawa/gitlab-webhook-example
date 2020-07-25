@@ -6,6 +6,9 @@ defmodule RequestLogging.Application do
   use Application
 
   def start(_type, _args) do
+    # initialize Http client
+    HTTPoison.start
+
     children = [
       # Start the Ecto repository
       # RequestLogging.Repo,
@@ -14,9 +17,10 @@ defmodule RequestLogging.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: RequestLogging.PubSub},
       # Start the Endpoint (http/https)
-      RequestLoggingWeb.Endpoint
+      RequestLoggingWeb.Endpoint,
       # Start a worker by calling: RequestLogging.Worker.start_link(arg)
-      # {RequestLogging.Worker, arg}
+      # {RequestLogging.Worker, arg},
+      External.GraphqlClient
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
