@@ -20,7 +20,8 @@ defmodule RequestLogging.Application do
       RequestLoggingWeb.Endpoint,
       # Start a worker by calling: RequestLogging.Worker.start_link(arg)
       # {RequestLogging.Worker, arg},
-      External.GraphqlClient
+      External.GraphqlClient,
+      External.RestAPIClient
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

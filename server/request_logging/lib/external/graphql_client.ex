@@ -1,6 +1,9 @@
 defmodule External.GraphqlClient do
   use GenServer
 
+  @endpoint "http://gilab-service/api/graphql"
+  @token "hM79LVge7BDx8xfyzNWb"
+
   def start_link(state) do
     GenServer.start_link(__MODULE__, state, name: __MODULE__)
   end
@@ -10,16 +13,15 @@ defmodule External.GraphqlClient do
   end
 
   def handle_call({:query, q}, _from, state) do
-    x = HTTPoison.post(
-      "http://localhost:31102/api/graphql",
+    %HTTPoison.Response{status_code: 200, body: body}  = HTTPoison.post!(
+      @endpoint,
       Jason.encode!(%{"query" => q, "variables" => nil}),
       [
         {"Content-Type", "application/json"},
-        {"Private-Token", "hM79LVge7BDx8xfyzNWb"}
+        {"Private-Token", @token}
       ]
     )
-    IO.inspect x
-    {:reply, "test", state}
+    {:reply, Jason.decode!(body), state}
   end
 
   def query(q), do: GenServer.call(__MODULE__, {:query, q})
